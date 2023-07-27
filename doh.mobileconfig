@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>PayloadContent</key>
+		<array>
+			<dict>
+				<key>DNSSettings</key>
+				<dict>
+					<key>DNSProtocol</key>
+					<string>HTTPS</string>
+					<key>ServerURL</key>
+					<string>https://agh.odvpn.ru/dns-query</string>
+				</dict>
+				<key>PayloadDescription</key>
+				<string>Configures device to use AdGuard Home</string>
+				<key>PayloadDisplayName</key>
+				<string>agh.odvpn.ru DoH</string>
+				<key>PayloadIdentifier</key>
+				<string>com.apple.dnsSettings.managed.315e5eb4-5a65-4f92-920d-211a557c0372</string>
+				<key>PayloadType</key>
+				<string>com.apple.dnsSettings.managed</string>
+				<key>PayloadUUID</key>
+				<string>e9162d59-4bcc-4766-9afc-3f56feda23b7</string>
+				<key>PayloadVersion</key>
+				<integer>1</integer>
+			</dict>
+		</array>
+		<key>PayloadDescription</key>
+		<string>Adds AdGuard Home to macOS Big Sur and iOS 14 or newer systems</string>
+		<key>PayloadDisplayName</key>
+		<string>agh.odvpn.ru DoH</string>
+		<key>PayloadIdentifier</key>
+		<string>0384ce5c-2d4b-4cf7-9cae-ed9907430d29</string>
+		<key>PayloadRemovalDisallowed</key>
+		<false/>
+		<key>PayloadType</key>
+		<string>Configuration</string>
+		<key>PayloadUUID</key>
+		<string>ab752a64-3dae-48f1-ba97-285f89d91fc6</string>
+		<key>PayloadVersion</key>
+		<integer>1</integer>
+	</dict>
+</plist>
