@@ -30,11 +30,7 @@ function firstSetup() {
 
     #2 Install apps
     echo -e "\n### Installing necessary apps"
-    apt -qq install -y ufw mc curl wget unzip zsh git certbot dnsutils nano htop net-tools wireguard apache2 mariadb-server mariadb-client python3-pip python3-venv lsb-release ca-certificates apt-transport-https software-properties-common gnupg2 snapd
-    echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/sury-php.list
-    wget -qO - https://packages.sury.org/php/apt.gpg | sudo apt-key add -
-    apt -qq update
-    apt -qq install -y php8.2 php8.2-cli php8.2-common php8.2-opcache php8.2-curl php8.2-mbstring php8.2-mysql php8.2-zip php8.2-xml php8.2-gd php8.2-gmp #php8.2-imagick
+    apt -qq install -y ufw mc curl wget unzip zsh git certbot dnsutils nano htop net-tools wireguard apache2 python3-pip python3-venv lsb-release ca-certificates apt-transport-https software-properties-common gnupg2 snapd
 
     #3 Create user
     usermod -aG root $UNAME

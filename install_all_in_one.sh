@@ -1,7 +1,6 @@
 #!/bin/bash
 
-
-# Check user permissions
+# Check user permissions and get server IP
 SERVER_PUB_IP=$(ip -4 addr | sed -ne 's|^.* inet \([^/]*\)/.* scope global.*$|\1|p' | awk '{print $1}' | head -1)
 if [ $USER != 'root' ]; then
 	UNAME=$USER
@@ -10,22 +9,26 @@ else
 	echo -e "\n### ROOT USER DETECTED. EXIT and connect with ssh ${UNAME}@${SERVER_PUB_IP}"
 fi
 
-	###### Variables
-	# SSR
-	SSR_VERSION="1.15.4"
-	SSR_PORT=12345
-	SSR_PASSWORD="iddqd"
-
-	# V2ray
-	V2RAY_VERSION="1.3.1"
-	V2RAY_PORT=88
-	V2RAY_HOST="vk.com"
-
-	# Domains settings
-	AGH_DOMAIN="agh.odvpn.ru"
-
-
+#########################
+# Installation parameters
+#########################
 # Shadowsocks Rust
+SSR_VERSION="1.15.4" # The latest one can be viewed here https://github.com/shadowsocks/shadowsocks-rust/releases
+SSR_PORT=12345 # Сan be kept, or changed to any available port
+SSR_PASSWORD="iddqd" # Set your password
+
+# V2ray
+V2RAY_VERSION="1.3.1" # The latest one can be viewed here https://github.com/shadowsocks/v2ray-plugin/releases
+V2RAY_PORT=88 # Сan be kept, or changed to any available port
+V2RAY_HOST="vk.com" # Set any host
+
+# Domains settings
+AGH_DOMAIN="" # Domain name for DNS Over HTTPS
+
+
+#########################
+# Shadowsocks Rust
+#########################
 function ssr() {
 	echo "Installing Shadowsocks Rust"
 	sudo wget https://github.com/shadowsocks/shadowsocks-rust/releases/download/v$SSR_VERSION/shadowsocks-v$SSR_VERSION.x86_64-unknown-linux-gnu.tar.xz
@@ -124,16 +127,15 @@ function ssr() {
 	sudo rm -rf shadowsocks*
 }
 
+#########################
+# V2RAY
+#########################
 function v2ray() {
 	echo "Installing V2Ray"
 	wget https://github.com/shadowsocks/v2ray-plugin/releases/download/v$V2RAY_VERSION/v2ray-plugin-linux-amd64-v$V2RAY_VERSION.tar.gz
 	tar -xvf v2ray-plugin-linux-amd64-v$V2RAY_VERSION.tar.gz
 	sudo mv v2ray-plugin_linux_amd64 /etc/shadowsocks/v2ray-plugin
 	sudo setcap "cap_net_bind_service=+eip" /etc/shadowsocks/v2ray-plugin && chmod +x /etc/shadowsocks/v2ray-plugin
-
-	# create v2ray service
-	# nano /etc/systemd/system/ss-v2ray-88.service
-	
 	echo "
 	[Unit]
 	Description=v2ray standalone server service
@@ -157,6 +159,10 @@ function v2ray() {
 
 }
 
+
+#########################
+# Adguard Home
+#########################
 function agh(){
 	echo "Installing AdGuard Home"
 	echo $SERVER_PUB_IP
@@ -165,18 +171,11 @@ function agh(){
 	echo "ATTENTION!!!
 	Change web port to 8080, and DNS to 53 (default).
 	After first setup, press Enter for generating SSL certificates"
-
 	read
-
 	sudo service apache2 stop
 	FULL_DOMAIN=${1}
 	sudo certbot certonly --standalone --preferred-challenges http --agree-tos --register-unsafely-without-email -d "$FULL_DOMAIN"
 	sudo service apache2 start
-
-
-	# Настройка АГХ в браузере: http://ip_мервера:3000/
-	# Рабочий port 8080, 53 для DNS
-	# 
 }
 
 
@@ -189,4 +188,5 @@ function remove_all(){
 }
 
 ssr
-# v2ray
+v2ray
+agh
