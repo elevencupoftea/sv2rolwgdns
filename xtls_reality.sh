@@ -2,6 +2,7 @@
 # XTLS Reality install script
 # Details: https://habr.com/ru/articles/731608/
 
+SERVER_PUB_IP=$(ip -4 addr | sed -ne 's|^.* inet \([^/]*\)/.* scope global.*$|\1|p' | awk '{print $1}' | head -1)
 XRAY_VERSION="1.8.4"
 DOMAIN="dl.google.com"
 
@@ -54,10 +55,10 @@ echo "{
         \"security\": \"reality\",
     \"realitySettings\": {
       \"show\": false,
-      \"dest\": \"www.microsoft.com:443\",
+      \"dest\": \"${DOMAIN}:443\",
       \"xver\": 0,
       \"serverNames\": [
-        \"www.microsoft.com\"
+        \"${DOMAIN}\"
       ],
       \"privateKey\": \"${XRAY_PRIVATE}\",
       \"minClientVer\": \"\",
@@ -114,6 +115,6 @@ sudo systemctl enable xray
 sudo systemctl restart xray
 
 # Create client config
-CLIENT_CONFIG=$(echo -e "vless://${XRAY_UUID}@80.76.42.199:443/?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=${DOMAIN}&fp=chrome&security=reality&pbk=${XRAY_PUBLIC}&sid=${SHORT_ID}#vLESs")
+CLIENT_CONFIG=$(echo -e "vless://${XRAY_UUID}@${SERVER_PUB_IP}:443/?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=${DOMAIN}&fp=chrome&security=reality&pbk=${XRAY_PUBLIC}&sid=${SHORT_ID}#vLESs")
 echo $CLIENT_CONFIG
 qrc $CLIENT_CONFIG
