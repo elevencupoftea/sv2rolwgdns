@@ -30,7 +30,7 @@ function firstSetup() {
 
     #2 Install apps
     echo -e "\n### Installing necessary apps"
-    apt -qq install -y ufw mc curl wget unzip zsh git certbot dnsutils nano htop net-tools wireguard apache2 python3-pip python3-venv lsb-release ca-certificates apt-transport-https software-properties-common gnupg2 snapd
+    apt -qq install -y ufw mc curl wget unzip zsh git certbot dnsutils nano htop net-tools python3-pip python3-venv lsb-release ca-certificates apt-transport-https software-properties-common gnupg2 snapd
 
     #3 Create user
     usermod -aG root $UNAME
